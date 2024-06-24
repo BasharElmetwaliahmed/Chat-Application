@@ -3,3 +3,31 @@
 @tailwind utilities;
 @import "@fontsource/roboto"; 
 
+@layer components {
+
+   .opactiy-transition{
+    @apply hover:opacity-60 hover:shadow-lg duration-300 transition-all
+   }
+   .input{
+    @apply bg-primaryLight  border-gray-300 focus:placeholder:text-white placeholder:text-black  text-sm rounded-sm focus:bg-primary transition-all duration-300 text-white border-2 border-transparent focus:border-secondary  block w-full p-2.5 outline-none
+   }
+   .input-label{
+    @apply block mb-2 text-sm font-medium text-white
+   }
+   .error-msg{
+    @apply text-sm text-red-600 my-3
+   }
+
+
+   .btn-auth{
+    @apply  my-6 hover:border-primaryDark   transition-all duration-300
+     after:h-0 after:w-full  after:absolute after:left-0 after:bg-secondary after:z-[-1] after:transition-all after:duration-300
+      z-[2000]  after:top-0   hover:after:h-full relative
+     border-secondary border-2 w-full py-2 text-white rounded-sm
+   }
+   .form{
+    @apply flex flex-col gap-16 justify-center items-center w-full h-full flex-[1]
+   }
+
+
+}
