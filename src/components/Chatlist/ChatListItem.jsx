@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { useChat } from "../../context/ChatContext";
 
-function ChatListItem({chat}) {
-  console.log(chat)
+function ChatListItem({ chat }) {
+  const { changeCurrentChat } = useChat();
   return (
-    <div className="flex  gap-4 border-b-2 border-gray-500 py-6 w-full">
+    <div
+      className="flex  gap-4 border-b-2 border-gray-500 py-6 w-full"
+      onClick={() => changeCurrentChat(chat.chatId, chat.user)}>
       {chat?.user.imageUrl ? (
         <img
           src={chat?.user.imageUrl}
@@ -17,10 +20,10 @@ function ChatListItem({chat}) {
       )}
       <div className="flex flex-col justify-between ">
         <h3 className="font-semibold ">{chat.user.username}</h3>
-        {chat.lastMessage && <p>{lastMessage.lastMessage}</p>}
+        {chat.lastMessage && <p>{chat.lastMessage}</p>}
       </div>
     </div>
   );
 }
 
-export default ChatListItem
+export default ChatListItem;
