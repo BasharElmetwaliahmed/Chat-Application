@@ -5,7 +5,7 @@ import ChatListItem from "./ChatListItem";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
 import { db } from "../../lib/firebase";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 function ChatList() {
@@ -13,12 +13,12 @@ function ChatList() {
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "userchats", user.id), async (doc) => {
+    const unsub = onSnapshot(doc(db, "userchats", user.id), async (res) => {
       try {
-        console.log(user.id, doc.data());
-        const chatItems = doc.data().chats;
+        const chatItems = res.data().chats;
         //after get chats we need to fetch users data
         const promises = chatItems.map(async (chat) => {
+          console.log(chat.reciverId)
           const docRef = doc(db, "users", chat.reciverId);
           const docSnap = await getDoc(docRef);
           const user = docSnap.data();
