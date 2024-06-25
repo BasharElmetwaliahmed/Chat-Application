@@ -1,15 +1,15 @@
 export const initialState = {
   email: "",
-  fullName: "",
+  username: "",
   password: "",
   emailError: "",
   passwordError: "",
-  fullNameError: "",
+  usernameError: "",
 };
 export default function reducer(state, action) {
   switch (action.type) {
-    case "UPDATE_FULLNAME":
-      return { ...state, fullName: action.payload, fullNameError: "" };
+    case "UPDATE_USERNAME":
+      return { ...state, username: action.payload, usernameError: "" };
     case "UPDATE_EMAIL":
       return { ...state, email: action.payload, emailError: "" };
     case "UPDATE_PASSWORD":
@@ -18,8 +18,8 @@ export default function reducer(state, action) {
       return { ...state, emailError: action.payload };
     case "SET_PASSWORD_ERROR":
       return { ...state, passwordError: action.payload };
-    case "SET_FULLNAME_ERROR":
-      return { ...state, fullNameError: action.payload };
+    case "SET_USERNAME_ERROR":
+      return { ...state, usernameError: action.payload };
     default:
       return state;
   }

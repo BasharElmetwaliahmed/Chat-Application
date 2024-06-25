@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useReducer } from "react";
+import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext";
 import reducer, { initialState } from "./formReducer";
 
 function SignUp() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [loading, setLoading] = useState(false);
+  const { signUp } = useAuth();
   const [uploadedImage, setUploadedImage] = useState({
     file: null,
     url: "",
@@ -34,16 +38,28 @@ function SignUp() {
       error = true;
     }
 
-    if (state.fullName.trim() === "") {
+    if (state.username.trim() === "") {
       dispatch({
-        type: "SET_FULLNAME_ERROR",
-        payload: "fullname mustn't be empty",
+        type: "SET_USERNAME_ERROR",
+        payload: "username mustn't be empty",
       });
       error = true;
     }
-
     if (!error) {
-      await signUp(state.fullName, state.email, state.password);
+      setLoading(true)
+      try {
+        await signUp(
+          state.username,
+          state.email,
+          state.password,
+          uploadedImage
+        );
+      } catch (err) {
+        toast.error(err.message);
+      }
+      finally{
+        setLoading(false)
+      }
     }
   };
 
@@ -81,21 +97,21 @@ function SignUp() {
           />
         </div>
         <div>
-          <label htmlFor="fullname" className="input-label">
-            Full name
+          <label htmlFor="username" className="input-label">
+            username
           </label>
           <input
             type="text"
-            id="fullname"
+            id="username"
             className="input"
             placeholder="John"
             onChange={(e) =>
-              dispatch({ type: "UPDATE_FULLNAME", payload: e.target.value })
+              dispatch({ type: "UPDATE_USERNAME", payload: e.target.value })
             }
             required
           />
-          {state.fullNameError && (
-            <p className="error-msg">*{state.fullNameError}</p>
+          {state.usernameError && (
+            <p className="error-msg">*{state.usernameError}</p>
           )}
         </div>
         <div>
@@ -133,7 +149,7 @@ function SignUp() {
           )}
         </div>
 
-        <button className="btn-auth">Sign Up</button>
+        <button className={' btn-auth disabled:opacity-50 disabled:bg-primaryLight transition-all duration-300'} disabled={loading} >{loading?'Loading':'Sign Up'}</button>
       </form>
     </main>
   );
